@@ -1,11 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import { Button, TextInput } from 'react-native-web';
+import TaskCard from './TaskCard';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.label} >App de Tarefas</Text>
+      <Textx style={styles.label}> App de Tarefas</Textx>
       <TextInput
         style={styles.input}
         placeholder='Nome da tafera' />
@@ -26,6 +27,12 @@ export default function App() {
             }
           } />
       </View>
+      <TaskCard title={"Teste"} 
+      desc={"Descrição teste"}
+      status={"Done"}
+      onClick={()=> {
+        alert("Deletar")
+      }}/>
     </View>
   );
 }
