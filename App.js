@@ -6,7 +6,7 @@ import TaskCard from './TaskCard';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Textx style={styles.label}> App de Tarefas</Textx>
+      <Text  style={styles.label}> App de Tarefas</Text>
       <TextInput
         style={styles.input}
         placeholder='Nome da tafera' />

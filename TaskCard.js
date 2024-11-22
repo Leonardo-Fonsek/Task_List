@@ -8,7 +8,7 @@ const TaskCard = ({ title, desc, status, onClick }) => {
                 <Text style={styles.title}>
                     {title}
                 </Text>
-                <CircleCheck color="green" size={32}></CircleCheck>
+                <CircleCheck color="green" size={32} />
             </view>
             <Text style={styles.description}>{desc}</Text>
             <TouchableOpacity style = {styles.button} onPress={onClick}>
@@ -25,20 +25,20 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 10,
         shadowColor: '#000',
-        ShadowOpacity: 0.1,
+        shadowOpacity: 0.1,
         shadowRadius: 5,
-        elevation: 3,
+        elevation: 3,   
         marginVertical: 10
     },
-    header: {
-        flexDirectrion: 'row',
+        header: {
+        flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBoottom: 10
+        marginBottom: 10
     },
     title: {
         fontSize: 10,
-        frontWeight: 'bold',
+        fontWeight: 'bold',
         color: '#333'
     },
     status: {
