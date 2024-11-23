@@ -1,38 +1,112 @@
-import { StatusBar } from 'expo-status-bar';
-import { Alert, StyleSheet, Text, View } from 'react-native';
-import { Button, TextInput } from 'react-native-web';
-import TaskCard from './TaskCard';
+import { StyleSheet, Text, View, TextInput, Button, ScrollView } from 'react-native';
+import TaskCard from './TaskCard'
+import { useState } from 'react';
 
 export default function App() {
+
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  const [task, setTask] = useState([]);
+  const [alert1, setAlert1] = useState(false);
+  const [alert2, setAlert2] = useState(false);
+
+  const onMessage = () => {
+
+    setAlert1(false);
+    setAlert2(false);
+
+    if (taskTitle !== "" && taskDescription.length >= 10) {
+      setTask([
+        ...task,
+        {
+          id: task.length + 1,
+          title: taskTitle,
+          description: taskDescription
+        }
+      ])
+
+      setTaskTitle("");
+      setTaskDescription("");
+
+    } else {
+      if (!taskTitle.trim()) {
+        setAlert1(true)
+        setTimeout(() => {
+          setAlert1(false)
+        }, 4000);
+      }
+
+      if (taskDescription.length < 10) {
+        setAlert2(true)
+        setTimeout(() => {
+          setAlert2(false)
+        }, 4000);
+      }
+    }
+  }
+
+  const deleteTask = (index) => {
+    const updateTasks = [...task];
+    updateTasks.splice(index, 1)
+    setTask(updateTasks);
+  }
+
   return (
+
     <View style={styles.container}>
-      <Text  style={styles.label}> App de Tarefas</Text>
+
+      <Text style={styles.label}>Task Name</Text>
+
+      {
+        alert1 ? <Text style={styles.errotText}>Title must be provided</Text> : <></>
+      }
+
       <TextInput
         style={styles.input}
-        placeholder='Nome da tafera' />
+        placeholder='Task Name'
+        value={taskTitle}
+        onChangeText={setTaskTitle} />
 
-      <Text style={styles.label}> Tarefa Descrição</Text>
+      <Text style={styles.label}>Task Description</Text>
+
       <TextInput
         style={[styles.input, styles.textArea]}
-        placeholder='Descrição da Tarefa'
+        placeholder='Task Description'
+        value={taskDescription}
+        onChangeText={setTaskDescription}
         multiline />
 
+      {
+        alert2 ? <Text style={styles.errotText}>Minimum 10 characters required</Text> : <></>
+      }
+
       <View style={styles.buttonContainer}>
-        <Button title='Salvar'
+        <Button title='Save'
           style={styles.buttonGreen}
-          color= 'darkgreen'
+          color='darkgreen'
           onPress={
-            () => {
-              alert('CHEL!!!')
-            }
-          } />
+            () => onMessage()}
+        />
+
       </View>
-      <TaskCard title={"Teste"} 
-      desc={"Descrição teste"}
-      status={"Done"}
-      onClick={()=> {
-        alert("Deletar")
-      }}/>
+
+      {
+        task.length > 0 ? <View style={styles.separator} /> : <> </>
+      }
+
+      <ScrollView>
+        {
+          task.map((item, index) => (
+
+            <TaskCard
+              title={item.title}
+              desc={item.description}
+              status={"Done"}
+              onclick={() => {
+                deleteTask();
+              }} />
+          ))}
+      </ScrollView>
     </View>
   );
 }
@@ -45,6 +119,8 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
+    display: 'flex',
+    justifyContent: 'center',
     fontWeight: 'bold',
     marginBottom: 8
   },
@@ -65,6 +141,16 @@ const styles = StyleSheet.create({
   },
   buttonGreen: {
     borderRadius: 12
+  },
+  separator: {
+    marginTop: 16,
+    width: "100%",
+    height: 1,
+    backgroundColor: "#222"
+  },
+  errotText: {
+    color: "red",
+    fontSize: 12,
+    fontStyle: "italic"
   }
-
 }); 
